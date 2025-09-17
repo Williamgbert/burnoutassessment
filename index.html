@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministry Leader Burnout Assessment</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        .font-garamond { font-family: 'EB Garamond', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.6s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-bar { transition: width 0.3s ease; }
+        .blue-gradient { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .blue-gradient-light { background: linear-gradient(135deg, #dbeafe, #bfdbfe); }
+        .blue-gradient-bg { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); }
+    </style>
+</head>
+<body class="blue-gradient-bg text-slate-800 font-inter min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+        <!-- Header -->
+        <div class="text-center mb-8 sm:mb-12 fade-in">
+            <h1 class="font-garamond text-3xl sm:text-4xl md:text-5xl font-medium text-slate-700 mb-4 px-2">
+                Ministry Leader Wellness Check
+            </h1>
+            <p class="font-garamond text-lg sm:text-xl text-slate-600 italic mb-6 sm:mb-8 px-2">
+                "Come to me, all you who are weary and burdened, and I will give you rest." - Matthew 11:28
+            </p>
+        </div>
+
+        <!-- Overview Card -->
+        <div id="overviewCard" class="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8 fade-in">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 blue-gradient rounded-full mb-4">
+                    <svg class="w-6 h-6 sm:w-8 sm:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                </div>
+                <h2 class="font-garamond text-xl sm:text-2xl font-medium text-slate-700 mb-4">A Gentle Space for Reflection</h2>
+            </div>
+            
+            <div class="max-w-2xl mx-auto text-center mb-6 sm:mb-8">
+                <p class="text-slate-600 leading-relaxed mb-4 sm:mb-6 text-sm sm:text-base">
+                    This gentle assessment is designed to help you reflect on your current well-being across four key areas of ministry life. 
+                    There are no right or wrong answers—only an invitation to honest self-reflection and God's grace.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                <div class="blue-gradient-light rounded-lg p-3 sm:p-4">
+                    <h3 class="font-medium text-slate-700 mb-2 text-sm sm:text-base">🙏 Spiritual Health</h3>
+                    <p class="text-xs sm:text-sm text-slate-600">Your connection with God, prayer life, and spiritual vitality</p>
+                </div>
+                <div class="blue-gradient-light rounded-lg p-3 sm:p-4">
+                    <h3 class="font-medium text-slate-700 mb-2 text-sm sm:text-base">💙 Emotional Health</h3>
+                    <p class="text-xs sm:text-sm text-slate-600">Your emotional resilience, joy, and ability to process feelings</p>
+                </div>
+                <div class="blue-gradient-light rounded-lg p-3 sm:p-4">
+                    <h3 class="font-medium text-slate-700 mb-2 text-sm sm:text-base">🤝 Relational Health</h3>
+                    <p class="text-xs sm:text-sm text-slate-600">Your connections with family, friends, and community support</p>
+                </div>
+                <div class="blue-gradient-light rounded-lg p-3 sm:p-4">
+                    <h3 class="font-medium text-slate-700 mb-2 text-sm sm:text-base">💪 Physical Health</h3>
+                    <p class="text-xs sm:text-sm text-slate-600">Your rest, exercise, nutrition, and physical well-being</p>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <p class="text-xs sm:text-sm text-slate-500 mb-4 sm:mb-6">
+                    ✨ Takes about 5-7 minutes • Completely private • Saved only on your device
+                </p>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progressContainer" class="mb-8 hidden">
+            <div class="bg-blue-200/50 rounded-full h-3 mb-2 shadow-inner">
+                <div id="progressBar" class="blue-gradient h-3 rounded-full progress-bar shadow-sm" style="width: 0%"></div>
+            </div>
+            <p class="text-sm text-slate-600 text-center font-medium">
+                <span id="currentQuestion">1</span> of <span id="totalQuestions">24</span> questions
+            </p>
+        </div>
+
+        <!-- Assessment Form -->
+        <div id="assessmentForm" class="fade-in hidden">
+            <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+                <div id="questionContainer">
+                    <!-- Questions will be inserted here -->
+                </div>
+                
+                <div class="flex flex-col sm:flex-row justify-between gap-4 mt-6 sm:mt-8">
+                    <button id="prevBtn" class="px-4 py-2 sm:px-6 text-slate-600 hover:text-slate-800 transition-colors hidden order-2 sm:order-1">
+                        ← Previous
+                    </button>
+                    <button id="nextBtn" class="px-6 py-3 blue-gradient text-white rounded-lg hover:opacity-90 transition-all shadow-md w-full sm:w-auto order-1 sm:order-2 sm:ml-auto">
+                        Next →
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="hidden fade-in">
+            <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+                <h2 class="font-garamond text-2xl sm:text-3xl font-medium text-slate-700 mb-6 text-center">Your Wellness Reflection</h2>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 mb-6 sm:mb-8">
+                    <div class="order-2 lg:order-1">
+                        <canvas id="resultsChart" width="400" height="400"></canvas>
+                    </div>
+                    <div id="interpretationText" class="space-y-4 order-1 lg:order-2">
+                        <!-- Interpretation will be inserted here -->
+                    </div>
+                </div>
+
+                <div class="border-t border-blue-200/50 pt-6 sm:pt-8">
+                    <h3 class="font-garamond text-xl sm:text-2xl font-medium text-slate-700 mb-4">Your Personalized Wellness Plan</h3>
+                    <div id="wellnessPlan" class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-6 rounded-lg mb-6 sm:mb-8">
+                        <!-- Wellness plan will be inserted here -->
+                    </div>
+                    
+                    <h3 class="font-garamond text-xl sm:text-2xl font-medium text-slate-700 mb-4">Scripture for Your Journey</h3>
+                    <div id="scriptureEncouragement" class="blue-gradient-light p-4 sm:p-6 rounded-lg">
+                        <!-- Scripture will be inserted here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reflection Journal -->
+            <div class="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg border border-blue-200/50 p-4 sm:p-6 lg:p-8">
+                <h3 class="font-garamond text-xl sm:text-2xl font-medium text-slate-700 mb-4">Personal Reflection</h3>
+                <p class="text-slate-600 mb-4 text-sm sm:text-base">Take a moment to reflect on what God might be saying to you through this assessment:</p>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">What rhythms are currently giving you life?</label>
+                        <textarea id="lifeGiving" class="w-full p-3 border border-blue-300/50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/70 text-sm sm:text-base" rows="3" placeholder="Reflect on the practices, relationships, or activities that energize you..."></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">What is currently draining you?</label>
+                        <textarea id="draining" class="w-full p-3 border border-blue-300/50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/70 text-sm sm:text-base" rows="3" placeholder="Consider what feels heavy or overwhelming right now..."></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-2">What is one small step you could take toward greater wellness this week?</label>
+                        <textarea id="nextStep" class="w-full p-3 border border-blue-300/50 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/70 text-sm sm:text-base" rows="3" placeholder="Think of something gentle and achievable..."></textarea>
+                    </div>
+                </div>
+                
+                <button id="saveReflection" class="mt-4 px-6 py-2 blue-gradient text-white rounded-lg hover:opacity-90 transition-all shadow-md w-full sm:w-auto">
+                    📄 Export Reflection
+                </button>
+                <p id="saveMessage" class="mt-2 text-sm text-blue-600 hidden">📄 Your reflection has been downloaded as a markdown file and saved locally!</p>
+            </div>
+        </div>
+
+        <!-- Start Button -->
+        <div id="startSection" class="text-center">
+            <button id="startBtn" class="px-6 py-3 sm:px-8 sm:py-4 blue-gradient text-white text-base sm:text-lg rounded-lg hover:opacity-90 transition-all shadow-lg transform hover:scale-105 w-full sm:w-auto">
+                Begin Assessment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            // Spiritual Health
+            { category: 'spiritual', text: 'I feel joy and delight in prayer and worship', reverse: false },
+            { category: 'spiritual', text: 'I sense God\'s presence in my daily life', reverse: false },
+            { category: 'spiritual', text: 'I feel spiritually dry or distant from God', reverse: true },
+            { category: 'spiritual', text: 'I regularly engage in Scripture reading for personal nourishment', reverse: false },
+            { category: 'spiritual', text: 'I feel like I\'m just going through the motions spiritually', reverse: true },
+            { category: 'spiritual', text: 'I have a healthy rhythm of Sabbath rest', reverse: false },
+            
+            // Emotional Health
+            { category: 'emotional', text: 'I often feel emotionally drained or numb', reverse: true },
+            { category: 'emotional', text: 'I can process difficult emotions in healthy ways', reverse: false },
+            { category: 'emotional', text: 'I feel overwhelmed by my responsibilities', reverse: true },
+            { category: 'emotional', text: 'I experience joy and laughter regularly', reverse: false },
+            { category: 'emotional', text: 'I struggle with anxiety or worry about ministry outcomes', reverse: true },
+            { category: 'emotional', text: 'I feel emotionally resilient and stable', reverse: false },
+            
+            // Relational Health
+            { category: 'relational', text: 'I have safe, authentic friendships outside of ministry', reverse: false },
+            { category: 'relational', text: 'I feel isolated or lonely in my leadership role', reverse: true },
+            { category: 'relational', text: 'My family relationships are healthy and thriving', reverse: false },
+            { category: 'relational', text: 'I have someone I can be completely honest with about my struggles', reverse: false },
+            { category: 'relational', text: 'I feel like I have to maintain a perfect image with others', reverse: true },
+            { category: 'relational', text: 'I receive encouragement and support from others regularly', reverse: false },
+            
+            // Physical Health
+            { category: 'physical', text: 'I get adequate, restful sleep most nights', reverse: false },
+            { category: 'physical', text: 'I regularly engage in physical exercise or activity', reverse: false },
+            { category: 'physical', text: 'I often feel physically exhausted', reverse: true },
+            { category: 'physical', text: 'I eat regular, nourishing meals', reverse: false },
+            { category: 'physical', text: 'I take time for activities that restore my energy', reverse: false },
+            { category: 'physical', text: 'I neglect my physical health due to ministry demands', reverse: true }
+        ];
+
+        let currentQuestionIndex = 0;
+        let responses = {};
+        
+        const startBtn = document.getElementById('startBtn');
+        const startSection = document.getElementById('startSection');
+        const assessmentForm = document.getElementById('assessmentForm');
+        const resultsSection = document.getElementById('resultsSection');
+        const progressContainer = document.getElementById('progressContainer');
+        const questionContainer = document.getElementById('questionContainer');
+        const nextBtn = document.getElementById('nextBtn');
+        const prevBtn = document.getElementById('prevBtn');
+        const progressBar = document.getElementById('progressBar');
+        const currentQuestionSpan = document.getElementById('currentQuestion');
+        const totalQuestionsSpan = document.getElementById('totalQuestions');
+
+        // Initialize
+        totalQuestionsSpan.textContent = questions.length;
+        
+        // Load saved reflections
+        function loadSavedReflections() {
+            const saved = localStorage.getItem('ministryReflections');
+            if (saved) {
+                const reflections = JSON.parse(saved);
+                document.getElementById('lifeGiving').value = reflections.lifeGiving || '';
+                document.getElementById('draining').value = reflections.draining || '';
+                document.getElementById('nextStep').value = reflections.nextStep || '';
+            }
+        }
+
+        startBtn.addEventListener('click', () => {
+            startSection.classList.add('hidden');
+            document.getElementById('overviewCard').classList.add('hidden');
+            assessmentForm.classList.remove('hidden');
+            progressContainer.classList.remove('hidden');
+            showQuestion(0);
+        });
+
+        function showQuestion(index) {
+            const question = questions[index];
+            currentQuestionIndex = index;
+            
+            const categoryColors = {
+                'spiritual': '🙏',
+                'emotional': '💙', 
+                'relational': '🤝',
+                'physical': '💪'
+            };
+            
+            questionContainer.innerHTML = `
+                <div class="fade-in">
+                    <div class="flex items-center justify-center mb-4">
+                        <span class="inline-flex items-center px-2 py-1 sm:px-3 rounded-full text-xs font-medium blue-gradient-light text-slate-700">
+                            ${categoryColors[question.category]} ${question.category.charAt(0).toUpperCase() + question.category.slice(1)} Health
+                        </span>
+                    </div>
+                    <h3 class="text-lg sm:text-xl font-medium text-slate-700 mb-6 text-center px-2">${question.text}</h3>
+                    <div class="space-y-2 sm:space-y-3">
+                        ${[1,2,3,4,5].map(value => `
+                            <label class="flex items-center space-x-3 p-3 sm:p-4 rounded-lg hover:bg-blue-50/50 cursor-pointer transition-all border border-transparent hover:border-blue-200/50">
+                                <input type="radio" name="response" value="${value}" class="text-blue-600 focus:ring-blue-500 flex-shrink-0" ${responses[index] === value ? 'checked' : ''}>
+                                <span class="text-slate-700 font-medium text-sm sm:text-base">${getScaleLabel(value)}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // Update progress
+            const progress = ((index + 1) / questions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+            currentQuestionSpan.textContent = index + 1;
+            
+            // Update button states
+            prevBtn.classList.toggle('hidden', index === 0);
+            nextBtn.textContent = index === questions.length - 1 ? 'View Results' : 'Next →';
+            
+            // Add event listeners to radio buttons
+            const radioButtons = questionContainer.querySelectorAll('input[type="radio"]');
+            radioButtons.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    responses[index] = parseInt(e.target.value);
+                });
+            });
+        }
+
+        function getScaleLabel(value) {
+            const labels = {
+                1: 'Strongly Disagree',
+                2: 'Disagree',
+                3: 'Neutral',
+                4: 'Agree',
+                5: 'Strongly Agree'
+            };
+            return labels[value];
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < questions.length - 1) {
+                showQuestion(currentQuestionIndex + 1);
+            } else {
+                showResults();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                showQuestion(currentQuestionIndex - 1);
+            }
+        });
+
+        function showResults() {
+            assessmentForm.classList.add('hidden');
+            progressContainer.classList.add('hidden');
+            resultsSection.classList.remove('hidden');
+            
+            const scores = calculateScores();
+            createChart(scores);
+            showInterpretation(scores);
+            showWellnessPlan(scores);
+            showScriptureEncouragement(scores);
+            loadSavedReflections();
+        }
+
+        function calculateScores() {
+            const categories = ['spiritual', 'emotional', 'relational', 'physical'];
+            const scores = {};
+            
+            categories.forEach(category => {
+                const categoryQuestions = questions.filter(q => q.category === category);
+                let total = 0;
+                let count = 0;
+                
+                categoryQuestions.forEach((question, qIndex) => {
+                    const globalIndex = questions.indexOf(question);
+                    if (responses[globalIndex] !== undefined) {
+                        let score = responses[globalIndex];
+                        if (question.reverse) {
+                            score = 6 - score; // Reverse scoring
+                        }
+                        total += score;
+                        count++;
+                    }
+                });
+                
+                scores[category] = count > 0 ? Math.round((total / count) * 20) : 0; // Scale to 100
+            });
+            
+            return scores;
+        }
+
+        function createChart(scores) {
+            const ctx = document.getElementById('resultsChart').getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Spiritual Health', 'Emotional Health', 'Relational Health', 'Physical Health'],
+                    datasets: [{
+                        label: 'Wellness Score',
+                        data: [scores.spiritual, scores.emotional, scores.relational, scores.physical],
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: 'rgba(59, 130, 246, 1)',
+                        borderWidth: 3,
+                        pointBackgroundColor: 'rgba(59, 130, 246, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(59, 130, 246, 1)',
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                stepSize: 20
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function showInterpretation(scores) {
+            const interpretationText = document.getElementById('interpretationText');
+            const categories = [
+                { key: 'spiritual', name: 'Spiritual Health' },
+                { key: 'emotional', name: 'Emotional Health' },
+                { key: 'relational', name: 'Relational Health' },
+                { key: 'physical', name: 'Physical Health' }
+            ];
+            
+            let html = '';
+            
+            categories.forEach(category => {
+                const score = scores[category.key];
+                let interpretation = '';
+                let color = '';
+                
+                if (score >= 80) {
+                    interpretation = 'You\'re thriving in this area. Continue nurturing these healthy patterns.';
+                    color = 'text-green-700';
+                } else if (score >= 60) {
+                    interpretation = 'You\'re doing well, with room for gentle growth and attention.';
+                    color = 'text-teal-700';
+                } else if (score >= 40) {
+                    interpretation = 'This area needs some tender care and intentional focus.';
+                    color = 'text-amber-700';
+                } else {
+                    interpretation = 'This area is calling for immediate, compassionate attention.';
+                    color = 'text-red-700';
+                }
+                
+                html += `
+                    <div class="mb-6 p-4 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100">
+                        <h4 class="font-medium text-slate-800 mb-2">${category.name}</h4>
+                        <div class="flex items-center mb-3">
+                            <div class="bg-blue-200 rounded-full h-3 flex-1 mr-4 shadow-inner">
+                                <div class="blue-gradient h-3 rounded-full shadow-sm transition-all duration-500" style="width: ${score}%"></div>
+                            </div>
+                            <span class="text-sm font-bold text-slate-700 bg-white px-2 py-1 rounded-full">${score}%</span>
+                        </div>
+                        <p class="text-sm ${color} font-medium leading-relaxed">${interpretation}</p>
+                    </div>
+                `;
+            });
+            
+            interpretationText.innerHTML = html;
+        }
+
+        function showWellnessPlan(scores) {
+            const wellnessPlanDiv = document.getElementById('wellnessPlan');
+            
+            // Find the lowest scoring areas for targeted recommendations
+            const sortedScores = Object.entries(scores).sort((a, b) => a[1] - b[1]);
+            const lowestArea = sortedScores[0];
+            const secondLowestArea = sortedScores[1];
+            
+            const recommendations = {
+                spiritual: [
+                    "Start with 5 minutes of silent prayer each morning before checking your phone",
+                    "Choose one Psalm to meditate on throughout the week",
+                    "Schedule a monthly personal retreat day for spiritual renewal",
+                    "Find a spiritual director or mentor for regular check-ins",
+                    "Practice Sabbath by protecting one day each week from work"
+                ],
+                emotional: [
+                    "Begin a simple gratitude practice - write down 3 things you're thankful for each day",
+                    "Schedule 15 minutes daily for a calming activity (tea, music, nature walk)",
+                    "Consider meeting with a Christian counselor or therapist",
+                    "Practice deep breathing exercises when feeling overwhelmed",
+                    "Set healthy boundaries by saying 'no' to one non-essential commitment this month"
+                ],
+                relational: [
+                    "Schedule a monthly coffee date with a friend outside of ministry",
+                    "Join a small group or Bible study where you can be a participant, not a leader",
+                    "Plan a weekly family activity with no ministry discussions",
+                    "Find an accountability partner who can ask you honest questions",
+                    "Attend a support group for ministry leaders in your area"
+                ],
+                physical: [
+                    "Commit to 7-8 hours of sleep by setting a consistent bedtime",
+                    "Take a 10-minute walk outside each day, even if it's just around the block",
+                    "Prepare healthy snacks on Sunday for the busy week ahead",
+                    "Schedule your annual physical and dental checkups",
+                    "Try a 5-minute stretching routine each morning or evening"
+                ]
+            };
+            
+            let planHtml = `
+                <h4 class="font-medium text-slate-800 mb-4">Based on your assessment, here are gentle steps toward greater wellness:</h4>
+                <div class="space-y-4">
+            `;
+            
+            // Add recommendations for the two lowest scoring areas
+            [lowestArea, secondLowestArea].forEach((area, index) => {
+                const categoryName = area[0].charAt(0).toUpperCase() + area[0].slice(1);
+                const categoryEmojis = {
+                    spiritual: '🙏',
+                    emotional: '💙',
+                    relational: '🤝',
+                    physical: '💪'
+                };
+                
+                const categoryRecommendations = recommendations[area[0]];
+                const selectedRecommendations = categoryRecommendations.slice(0, 2); // Take first 2 recommendations
+                
+                planHtml += `
+                    <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                        <h5 class="font-medium text-slate-700 mb-3 flex items-center">
+                            <span class="mr-2">${categoryEmojis[area[0]]}</span>
+                            ${categoryName} Health Focus
+                        </h5>
+                        <ul class="space-y-2">
+                `;
+                
+                selectedRecommendations.forEach(rec => {
+                    planHtml += `<li class="text-sm text-slate-600 flex items-start"><span class="text-blue-500 mr-2">•</span>${rec}</li>`;
+                });
+                
+                planHtml += `
+                        </ul>
+                    </div>
+                `;
+            });
+            
+            // Add a general encouragement
+            planHtml += `
+                    <div class="bg-gradient-to-r from-blue-100 to-indigo-100 p-4 rounded-lg border border-blue-200">
+                        <p class="text-sm text-slate-700 italic">
+                            <strong>Remember:</strong> Start with just one small step. God's grace covers your journey toward wholeness. 
+                            Progress, not perfection, is the goal. Consider sharing this plan with a trusted friend or mentor for accountability.
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            wellnessPlanDiv.innerHTML = planHtml;
+        }
+
+        function showScriptureEncouragement(scores) {
+            const scriptureDiv = document.getElementById('scriptureEncouragement');
+            const averageScore = Object.values(scores).reduce((a, b) => a + b, 0) / 4;
+            
+            let scripture = '';
+            
+            if (averageScore >= 70) {
+                scripture = `
+                    <p class="font-garamond text-lg italic text-slate-700 mb-4">
+                        "The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you; 
+                        in his love he will no longer rebuke you, but will rejoice over you with singing." - Zephaniah 3:17
+                    </p>
+                    <p class="text-slate-600 mb-4">
+                        God delights in your faithfulness and the way you're caring for yourself. Continue to walk in the rhythms that bring life, 
+                        and remember that your identity is secure in His love, not in your performance.
+                    </p>
+                    <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-sm text-slate-600 italic">
+                            "Well done, good and faithful servant." Your commitment to wellness honors both God and those you serve.
+                        </p>
+                    </div>
+                `;
+            } else if (averageScore >= 50) {
+                scripture = `
+                    <p class="font-garamond text-lg italic text-slate-700 mb-4">
+                        "He gives strength to the weary and increases the power of the weak. Even youths grow tired and weary, 
+                        and young men stumble and fall; but those who hope in the Lord will renew their strength." - Isaiah 40:29-31
+                    </p>
+                    <p class="text-slate-600 mb-4">
+                        God sees your weariness and offers His strength. This season of mixed wellness is normal and human. 
+                        Consider what small, gentle steps toward rest and renewal He might be inviting you to take.
+                    </p>
+                    <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-sm text-slate-600 italic">
+                            Remember: Progress, not perfection. God is patient with your journey toward wholeness.
+                        </p>
+                    </div>
+                `;
+            } else {
+                scripture = `
+                    <p class="font-garamond text-lg italic text-slate-700 mb-4">
+                        "Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you 
+                        and learn from me, for I am gentle and humble in heart, and you will find rest for your souls." - Matthew 11:28-29
+                    </p>
+                    <p class="text-slate-600 mb-4">
+                        Jesus extends a gentle invitation to rest. This season of struggle is not a reflection of your worth or calling. 
+                        You are deeply loved, and it's okay to not be okay right now. Consider reaching out to a trusted friend, 
+                        counselor, or spiritual director for support.
+                    </p>
+                    <div class="bg-white p-4 rounded-lg border-l-4 border-blue-500">
+                        <p class="text-sm text-slate-600 italic">
+                            "The Lord is close to the brokenhearted and saves those who are crushed in spirit." - Psalm 34:18
+                        </p>
+                    </div>
+                `;
+            }
+            
+            scriptureDiv.innerHTML = scripture;
+        }
+
+        // Export reflection as markdown
+        document.getElementById('saveReflection').addEventListener('click', () => {
+            const lifeGiving = document.getElementById('lifeGiving').value;
+            const draining = document.getElementById('draining').value;
+            const nextStep = document.getElementById('nextStep').value;
+            const currentDate = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Create markdown content
+            const markdownContent = `# Ministry Wellness Reflection
+*${currentDate}*
+
+## What rhythms are currently giving you life?
+
+${lifeGiving || '_No reflection entered_'}
+
+## What is currently draining you?
+
+${draining || '_No reflection entered_'}
+
+## What is one small step you could take toward greater wellness this week?
+
+${nextStep || '_No reflection entered_'}
+
+---
+
+*"Come to me, all you who are weary and burdened, and I will give you rest." - Matthew 11:28*
+
+*Generated by Ministry Leader Wellness Check*
+`;
+            
+            // Create and download the file
+            const blob = new Blob([markdownContent], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `ministry-reflection-${new Date().toISOString().split('T')[0]}.md`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            // Also save locally as backup
+            const reflections = {
+                lifeGiving: lifeGiving,
+                draining: draining,
+                nextStep: nextStep,
+                date: new Date().toISOString()
+            };
+            localStorage.setItem('ministryReflections', JSON.stringify(reflections));
+            
+            const saveMessage = document.getElementById('saveMessage');
+            saveMessage.classList.remove('hidden');
+            setTimeout(() => {
+                saveMessage.classList.add('hidden');
+            }, 3000);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'980aa6aed645270f',t:'MTc1ODEzMzU3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
